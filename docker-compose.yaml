@@ -48,3 +48,5 @@ services:
     volumes:
       - ${QBT_CONFIG_PATH}:/config
       - ${QBT_DOWNLOADS_PATH}:/downloads
+    env_file:
+      - .env
