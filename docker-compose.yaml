@@ -10,7 +10,7 @@ services:
     environment:
     - DOWNLOAD_CLIENT=qbittorrent
     - DL_SCHEME=http
-    - DL_HOST=qbittorrent
+    - DL_HOST=192.168.1.66
     - DL_PORT=8090
     - DL_USERNAME=admin
     - DL_PASSWORD=pass
