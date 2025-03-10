@@ -17,7 +17,7 @@ services:
     - DL_CATEGORY=abb-downloader
     - SAVE_PATH_BASE=/audiobooks
     - ABB_HOSTNAME='audiobookbay.is' #Default
-  restart: unless-stopped
+    restart: unless-stopped
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -35,4 +35,4 @@ services:
       - 8080:8080
       - 6881:6881
       - 6881:6881/udp
-  restart: unless-stopped
+    restart: unless-stopped
