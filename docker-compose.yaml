@@ -11,14 +11,14 @@ services:
     - DOWNLOAD_CLIENT=qbittorrent
     - DL_SCHEME=http
     - DL_HOST=192.168.1.66
-    - DL_PORT=8090
+    - DL_PORT=8080
     - DL_USERNAME=admin
     - DL_PASSWORD=pass
     - DL_CATEGORY=abb-downloader
     - SAVE_PATH_BASE=/audiobooks
     - ABB_HOSTNAME='audiobookbay.is' #Default
-    - NAV_LINK_NAME=Open Audiobook Player #Optional
-    - NAV_LINK_URL=https://audiobooks.yourdomain.com/ #Optional
+  restart: unless-stopped
+
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -26,10 +26,13 @@ services:
     - PUID=1000
     - PGID=1000
     - TZ=Etc/UTC
-    - WEBUI_PORT=8090
-    - TORRENTING_PORT=49119
+    - WEBUI_PORT=8080
+    - TORRENTING_PORT=6881
     volumes:
     - ./config:/config
-    - /download/path/here:/downloads
-    env_file:
-      - .env
+    - ./downloads:/downloads
+    ports:
+      - 8080:8080
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped
