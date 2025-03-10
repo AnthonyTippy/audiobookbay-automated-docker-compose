@@ -1,52 +1,35 @@
+
 version: '3.8'
 
 services:
-  audiobookbay-automated:
+  audiobookbay-downloader:
     image: ghcr.io/jamesry96/audiobookbay-automated:latest
     ports:
-      - "5078:5078"
-    container_name: audiobookbay-automated
+    - "5078:5078"
+    container_name: audiobookbay-downloader
     environment:
-      - DOWNLOAD_CLIENT=${DOWNLOAD_CLIENT}
-      - DL_HOST=${DL_HOST}
-      - DL_PORT=${DL_PORT}
-      - DL_USERNAME=${DL_USERNAME}
-      - DL_PASSWORD=${DL_PASSWORD}
-      - DL_CATEGORY=${DL_CATEGORY}
-      - SAVE_PATH_BASE=${SAVE_PATH_BASE}
-      - NAV_LINK_NAME=${NAV_LINK_NAME}
-      - NAV_LINK_URL=${NAV_LINK_URL}
-    env_file:
-      - .env
-
-  qbittorrent-nox:
-    # for debugging
-    #cap_add:
-      #- SYS_PTRACE
-    container_name: qbittorrent-nox
+    - DOWNLOAD_CLIENT=qbittorrent
+    - DL_SCHEME=http
+    - DL_HOST=qbittorrent
+    - DL_PORT=8090
+    - DL_USERNAME=admin
+    - DL_PASSWORD=pass
+    - DL_CATEGORY=abb-downloader
+    - SAVE_PATH_BASE=/audiobooks
+    - ABB_HOSTNAME='audiobookbay.is' #Default
+    - NAV_LINK_NAME=Open Audiobook Player #Optional
+    - NAV_LINK_URL=https://audiobooks.yourdomain.com/ #Optional
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
     environment:
-      #- PAGID=10000
-      #- PGID=1000
-      #- PUID=1000
-      - QBT_LEGAL_NOTICE=${QBT_LEGAL_NOTICE}
-      - QBT_VERSION=${QBT_VERSION}
-      - QBT_WEBUI_PORT=${QBT_WEBUI_PORT}
-      #- TZ=UTC
-      #- UMASK=022
-    image: qbittorrentofficial/qbittorrent-nox:${QBT_VERSION}
-    ports:
-      # for bittorrent traffic
-      - 6881:6881/tcp
-      - 6881:6881/udp
-      # for WebUI
-      - ${QBT_WEBUI_PORT}:${QBT_WEBUI_PORT}/tcp
-    read_only: true
-    stop_grace_period: 30m
-    tmpfs:
-      - /tmp
-    tty: true
+    - PUID=1000
+    - PGID=1000
+    - TZ=Etc/UTC
+    - WEBUI_PORT=8090
+    - TORRENTING_PORT=49119
     volumes:
-      - ${QBT_CONFIG_PATH}:/config
-      - ${QBT_DOWNLOADS_PATH}:/downloads
+    - ./config:/config
+    - /download/path/here:/downloads
     env_file:
       - .env
