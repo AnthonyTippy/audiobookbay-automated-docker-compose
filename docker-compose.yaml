@@ -13,10 +13,10 @@ services:
     - DL_HOST=192.168.1.66
     - DL_PORT=8080
     - DL_USERNAME=admin
-    - DL_PASSWORD=pass
+    - DL_PASSWORD=administrator
     - DL_CATEGORY=abb-downloader
     - SAVE_PATH_BASE=/audiobooks
-    - ABB_HOSTNAME='audiobookbay.is' #Default
+    - ABB_HOSTNAME= 'theaudiobookbay.se' #'audiobookbay.is' #Default
     restart: unless-stopped
 
   qbittorrent:
