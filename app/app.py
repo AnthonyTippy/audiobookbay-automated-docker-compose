@@ -61,13 +61,13 @@ def inject_nav_link():
 
 
 # Helper function to search AudiobookBay
-def search_audiobookbay(query, max_pages=2):
+def search_audiobookbay(query, max_pages=5):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
     }
     results = []
     for page in range(1, max_pages + 1):
-        url = f"http://{ABB_HOSTNAME}/page/{page}/?s={query.replace(' ', '+')}&cat=undefined%2Cundefined"
+        url = f"https://{ABB_HOSTNAME}/page/{page}/?s={query.replace(' ', '+')}&cat=undefined%2Cundefined"
         response = requests.get(url, headers=headers)
         if response.status_code != 200:
             print(f"[ERROR] Failed to fetch page {page}. Status Code: {response.status_code}")
@@ -77,7 +77,7 @@ def search_audiobookbay(query, max_pages=2):
         for post in soup.select('.post'):
             try:
                 title = post.select_one('.postTitle > h2 > a').text.strip()
-                link = f"http://{ABB_HOSTNAME}{post.select_one('.postTitle > h2 > a')['href']}"
+                link = f"https://{ABB_HOSTNAME}{post.select_one('.postTitle > h2 > a')['href']}"
                 cover = post.select_one('img')['src'] if post.select_one('img') else "/static/images/default-cover.jpg"
                 results.append({'title': title, 'link': link, 'cover': cover})
             except Exception as e:
