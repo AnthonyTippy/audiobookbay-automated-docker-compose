@@ -39,10 +39,7 @@ services:
     - SAVE_PATH_BASE=/audiobooks
     - ABB_HOSTNAME= 'theaudiobookbay.se' #'audiobookbay.is' #Default
     restart: unless-stopped
-    network_mode: "service:gluetun"
-    depends_on:
-      gluetun:
-        condition: service_healthy
+#    network_mode: "service:gluetun"
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -61,7 +58,4 @@ services:
       - 6881:6881
       - 6881:6881/udp
     restart: unless-stopped
-    network_mode: "service:gluetun"
-    depends_on:
-      gluetun:
-        condition: service_healthy
+#    network_mode: "service:gluetun"
